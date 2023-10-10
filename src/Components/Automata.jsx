@@ -11,8 +11,39 @@ function MyComponent(props) {
     };
 
     const handleSimulate = () => {
-        // automate logic goes here
-    }
+        const input = this.state.input;
+        const stack = [];
+        let currentState = 'q0';
+        let isAccepting = false;
+
+        for (let i = 0; i < input.length; i++) {
+            const symbol = input[i];
+
+            // Transiciones del autómata
+            if (currentState === 'q0' && symbol === 'a') {
+                currentState = 'q1';
+                stack.push(symbol);
+            } else if (currentState === 'q1' && symbol === 'b') {
+                stack.push(symbol);
+            } else if (currentState === 'q1' && symbol === 'c') {
+                currentState = 'q2';
+                stack.pop(); // Pop 'b' from the stack
+            } else if (currentState === 'q2' && symbol === 'd') {
+                stack.pop(); // Pop 'c' from the stack
+            } else {
+                // Si no se cumple una transición, la cadena no es aceptada
+                isAccepting = false;
+                break;
+            }
+
+            // Verificar si la cadena es aceptada al final
+            if (i === input.length - 1) {
+                isAccepting = currentState === 'q2' && stack.length === 0;
+            }
+        }
+
+        this.setState({ stack, currentState, isAccepting });
+    };
 
     return (
         <div>
