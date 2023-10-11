@@ -23,7 +23,15 @@
     transition: background-color 0.3s, color 0.3s, transform 0.3s;
     user-select: none;
     margin-inline: 20px !important
-  }
+}
+
+.successText {
+    color: #2ecc71;
+}
+
+.failText {
+    color: #e74c3c;
+}
 
 /* .stack-item.hidden {
     transform: translateY(100%);

@@ -8,14 +8,21 @@ function MyComponent(props) {
     const [input, setInput] = useState("");
     const [stack, setStack] = useState([]);
     const [currentState, setCurrentState] = useState("q0");
-    const [isAccepting, setAccept] = useState(false);
+    const [isAccepting, setAccept] = useState(null);
     const states = ["q0", "q1", "q2"];
 
     const handleChange = (event) => {
         setInput(event.target.value);
     };
 
+    const clear = () => {
+        setStack([]);
+        setCurrentState("q0");
+        setAccept(null);
+    }
+
     const handleSimulate = async () => {
+        clear();
         // const input = this.state.input;
         const stack = [];
         let currentState = 'q0';
@@ -23,7 +30,7 @@ function MyComponent(props) {
 
         for (let i = 0; i < input.length; i++) {
             const symbol = input[i];
-
+            console.log(symbol, i, input.length);
             // Transiciones del autómata
             if (currentState === 'q0' && symbol === 'a') {
                 currentState = 'q1';
@@ -44,15 +51,22 @@ function MyComponent(props) {
             } else {
                 // Si no se cumple una transición, la cadena no es aceptada
                 isAccepting = false;
-                setAccept(isAccepting);
+                // setAccept(isAccepting);
                 break;
             }
+
 
             // await handleChangeCurrentState(currentState);
 
             // Verificar si la cadena es aceptada al final
             if (i === input.length - 1) {
+                console.log('last iteration', stack.length === 0);
                 isAccepting = currentState === 'q2' && stack.length === 0;
+                break;
+            } else if (stack.length === 0) {
+                console.log('stack is empty');
+                isAccepting = false;
+                break;
             }
         }
 
@@ -61,13 +75,6 @@ function MyComponent(props) {
 
     const handleChangeCurrentState = (newState) => {
         setCurrentState(newState);
-        // return new Promise((resolve) => {
-        //     setTimeout(() => {
-        //         setCurrentState(newState);
-        //         resolve();
-        //     }, 1000)
-        // }
-        // );
     };
 
     const handlePush = (el) => {
@@ -127,7 +134,6 @@ function MyComponent(props) {
                         key={state}
                         state={state}
                         isCurrentState={currentState === state}
-                        isAccepting={isAccepting}
                     />
                 ))}
             </div>
@@ -139,13 +145,14 @@ function MyComponent(props) {
                 ))}
                 {/* Mostrar animación gráfica de estados con el indicador de n y el contenido de la pila */}
             </div>
-
-            {isAccepting ? <p>Aceptada</p> : <p>No Aceptada</p>}
+            {isAccepting !== null && (
+                isAccepting ? <p className='successText'>Aceptada</p> : <p className='failText'>No Aceptada</p>
+            )}
       </div>
     );
 }
 
-const StateItem = ({ state, isCurrentState, isAccepting  }) => {
+const StateItem = ({ state, isCurrentState  }) => {
     const springProps = useSpring({
         backgroundColor: isCurrentState ? '#3498db' : 'transparent',
         color: isCurrentState ? '#fff' : 'rgba(52, 152, 219, 0.2)',
