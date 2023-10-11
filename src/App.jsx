@@ -7,9 +7,9 @@ import Automata from './Components/Automata'
 function App() {
 
   return (
-    <>
+    <div>
       <Automata />
-    </>
+    </div>
   )
 }
 

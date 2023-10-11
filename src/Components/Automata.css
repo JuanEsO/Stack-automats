@@ -1,12 +1,4 @@
-.stack {
-    perspective: 600px; /* Add perspective for 3D effect */
-    position: relative;
-    width: 800px;
-    height: 800px;
-    /* border: 1px solid #ccc; */
-    overflow: hidden;
-    padding: 20px;
-  }
+
   
 .stack-item {
     position: absolute;
@@ -21,6 +13,17 @@
     border: 1px solid #2980b9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.circleContainer {
+    margin-block: 40px;
+}
+
+.circle {
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    user-select: none;
+    margin-inline: 20px !important
+  }
 
 /* .stack-item.hidden {
     transform: translateY(100%);
